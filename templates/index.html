@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang ="pt-br">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0">
+    <title>mytasks</title>
+    <link rel = "stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+    <h1> Mytasks</h1>
+    <form action = "{{url_for('home')}}" class="input-container" method="POST">
+        <input type = "text" placeholder="adicionar tarefa" id="input-todo" name="todo_name" required>
+        <button id = "add-todo">+</button>
+    </form>
+    <h2>Tasks</h2>
+    <div class="todo-container">
+        {% for item in items %}
+        <div class="todo">
+            <p>{{item.name}}</p>
+             <div class="actions">
+                <form action="{{ url_for('checked_todo', todo_id=item.id) }}" method="POST">
+                    <label for="checked">Concluído</label>
+                    <input type="checkbox" name="checked" {% if item.checked %}checked{% endif %}
+                        onchange="this.form.submit()">                      
+                 </form>
+                 <form action="{{ url_for('delete_todo', todo_id=item.id) }}" method="POST">
+                    <button>Delete</button>
+                </form>
+             </div>
+         </div>
+        {% endfor %}
+
+    </div>
+</body>
+</html>
