@@ -7,9 +7,9 @@ with open('schema.sql') as f:
 
 cur = connection.cursor()
 cur.execute("INSERT INTO tasks (name, checked) VALUES (?, ?)",
-            ('Ler um livro', 0))
+            ('Ler um livro', 0,))
 cur.execute("INSERT INTO tasks (name, checked) VALUES (?, ?)",
-            ('Comprar pão', 0))
+            ('Comprar pão', 0,))
 
 connection.commit()
 connection.close()

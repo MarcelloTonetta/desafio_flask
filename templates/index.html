@@ -18,18 +18,21 @@
         <div class="todo">
             <p>{{item.name}}</p>
              <div class="actions">
+                <form action="{{ url_for('edit_todo', todo_id=item.id) }}" method="GET">
+                    <button>Edit</button>
+                </form>
                 <form action="{{ url_for('checked_todo', todo_id=item.id) }}" method="POST">
                     <label for="checked">Concluído</label>
-                    <input type="checkbox" name="checked" {% if item.checked %}checked{% endif %}
+                    <input type="checkbox" name="checked"  {% if item.checked %}checked{% endif %}
                         onchange="this.form.submit()">                      
-                 </form>
+                </form>
+                
                  <form action="{{ url_for('delete_todo', todo_id=item.id) }}" method="POST">
                     <button>Delete</button>
                 </form>
              </div>
          </div>
         {% endfor %}
-
     </div>
 </body>
 </html>

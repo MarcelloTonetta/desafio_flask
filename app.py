@@ -1,6 +1,4 @@
 from flask import Flask, render_template, url_for, request, redirect
-import random
-from datetime import datetime
 import sqlite3
 
 app = Flask(__name__)
@@ -35,6 +33,21 @@ def checked_todo(todo_id):
     conn.commit()
     conn.close()
     return redirect(url_for("home"))
+
+@app.route("/edit/<int:todo_id>", methods=["GET", "POST"])
+def edit_todo(todo_id):
+    conn = get_db_connection()
+    todo = conn.execute('SELECT * FROM tasks WHERE id = ?', (todo_id,)).fetchone()
+    
+    if request.method == 'POST':
+        new_name = request.form['new_name']
+        conn.execute('UPDATE tasks SET name = ? WHERE id = ?', (new_name, todo_id,))
+        conn.commit()
+        conn.close()
+        return redirect(url_for("home"))
+
+    conn.close()
+    return render_template("edit.html", todo=todo)
 
 @app.route("/delete/<int:todo_id>", methods = ["POST"])
 def delete_todo(todo_id):
