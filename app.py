@@ -25,14 +25,15 @@ def home():
     conn.close()
     return render_template("index.html", items=todos)
 
-@app.route("/checked/<int:todo_id>", methods=["POST"])
-def checked_todo(todo_id):
-    checked = is_checked(request.form.get('checked'))
+@app.route("/radio/<int:todo_id>", methods=["POST"])
+def radio_todo(todo_id):
+    radio = is_radio(int(request.form.get('rad')))  # Converta para inteiro e use a função is_radio
     conn = get_db_connection()
-    _ = conn.execute('UPDATE tasks SET checked = ? WHERE id = ?', (checked, todo_id,))
+    _ = conn.execute('UPDATE tasks SET radio = ? WHERE id = ?', (radio, todo_id))
     conn.commit()
     conn.close()
     return redirect(url_for("home"))
+
 
 @app.route("/edit/<int:todo_id>", methods=["GET", "POST"])
 def edit_todo(todo_id):
@@ -58,10 +59,10 @@ def delete_todo(todo_id):
 
     return redirect(url_for("home"))
 
-def is_checked(value):
-    if value == 'on':
-        return 1
-    return 0
+
+
+def is_radio(value):
+    return value if value in (1, 2, 3) else 0
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -6,10 +6,10 @@ with open('schema.sql') as f:
     connection.executescript(f.read())
 
 cur = connection.cursor()
-cur.execute("INSERT INTO tasks (name, checked) VALUES (?, ?)",
-            ('Ler um livro', 0,))
-cur.execute("INSERT INTO tasks (name, checked) VALUES (?, ?)",
-            ('Comprar pão', 0,))
+cur.execute("INSERT INTO tasks (name, radio) VALUES (?, ?)",
+            ('Ler um livro', 1,))
+cur.execute("INSERT INTO tasks (name, radio) VALUES (?, ?)",
+            ('Comprar pão', 1,))
 
 connection.commit()
 connection.close()
