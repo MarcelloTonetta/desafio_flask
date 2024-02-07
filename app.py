@@ -14,7 +14,7 @@ def home():
     if(request.method == 'POST'):
         todo_name = request.form["todo_name"]
         conn = get_db_connection()
-        conn.execute('INSERT INTO tasks (name, checked) VALUES (?, ?)',
+        conn.execute('INSERT INTO tasks (name, radio) VALUES (?, ?)',
                          (todo_name, 0))
         conn.commit()
         conn.close()
@@ -27,7 +27,7 @@ def home():
 
 @app.route("/radio/<int:todo_id>", methods=["POST"])
 def radio_todo(todo_id):
-    radio = is_radio(int(request.form.get('rad')))  # Converta para inteiro e use a função is_radio
+    radio = is_radio(int(request.form.get('rad'))) 
     conn = get_db_connection()
     _ = conn.execute('UPDATE tasks SET radio = ? WHERE id = ?', (radio, todo_id))
     conn.commit()
@@ -58,8 +58,6 @@ def delete_todo(todo_id):
     conn.close()
 
     return redirect(url_for("home"))
-
-
 
 def is_radio(value):
     return value if value in (1, 2, 3) else 0
